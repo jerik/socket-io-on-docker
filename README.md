@@ -37,8 +37,9 @@ Based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
 
 3. Do the dockerfile stuff
 
-	 # used the newest node version 
-	 FROM node:11
+
+	# used the newest node version 
+	FROM node:11
 
 	# Create app directory
 	WORKDIR /usr/src/app
@@ -63,6 +64,7 @@ Based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
 4. docker build -t jerik/socket-io-app
 
 Had some warnings
+
 	Step 4/7 : RUN npm install
 	 ---> Running in 6fdc11ae52dd
 	npm WARN socket-chat-example@0.0.1 No repository field.
