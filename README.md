@@ -38,94 +38,103 @@ Based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
 3. Do the dockerfile stuff
 
 
-```
+```bash
 # used the newest node version 
 FROM node:11
-```
 
-```bash
 # Create app directory
 WORKDIR /usr/src/app
+
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
+
+RUN npm install
+# If you are building your code for production
+# RUN npm install --only=production
+
+# Bundle app source
+COPY . .
+
+#EXPOSE 8080
+# Changed to work with my socket.io server.js
+EXPOSE 3000
+CMD [ "npm", "start" ]
 ```
-
-	# Install app dependencies
-	# A wildcard is used to ensure both package.json AND package-lock.json are copied
-	# where available (npm@5+)
-	COPY package*.json ./
-
-	RUN npm install
-	# If you are building your code for production
-	# RUN npm install --only=production
-
-	# Bundle app source
-	COPY . .
-
-	#EXPOSE 8080
-	# Changed to work with my socket.io server.js
-	EXPOSE 3000
-	CMD [ "npm", "start" ]
 
 4. docker build -t jerik/socket-io-app
 
-Had some warnings
+Had some warnings, but I ignored them
 
-	Step 4/7 : RUN npm install
-	 ---> Running in 6fdc11ae52dd
-	npm WARN socket-chat-example@0.0.1 No repository field.
-	npm WARN socket-chat-example@0.0.1 No license field.
+```bash
+Step 4/7 : RUN npm install
+ ---> Running in 6fdc11ae52dd
+npm WARN socket-chat-example@0.0.1 No repository field.
+npm WARN socket-chat-example@0.0.1 No license field.
+```
 
 5. Check the docker images
 
-	docker images
-	jerik/socket-io-app      latest              58646c790614        44 seconds ago      896MB
-	node                     11                  37f455de4837        3 days ago          894MB
+```bash
+docker images
+jerik/socket-io-app      latest              58646c790614        44 seconds ago      896MB
+node                     11                  37f455de4837        3 days ago          894MB
+```
 
 6. run the image
 
-	#docker run -p 49160:8080 -d jerik/socket-io-app
-	#docker run -p 49160:3000 -d jerik/socket-io-app
+```bash
+docker run -p 49160:3000 -d jerik/socket-io-app
 
-	# Get the docker ID
-	docker ps
-	CONTAINER ID        IMAGE                 COMMAND             CREATED             STATUS              PORTS                     NAMES
-	8f0041c7b9c8        jerik/socket-io-app   "npm start"         7 seconds ago       Up 6 seconds        0.0.0.0:49160->3000/tcp   determined_turing
+# Get the docker ID
+docker ps
+CONTAINER ID        IMAGE                 COMMAND             CREATED             STATUS              PORTS                     NAMES
+8f0041c7b9c8        jerik/socket-io-app   "npm start"         7 seconds ago       Up 6 seconds        0.0.0.0:49160->3000/tcp   determined_turing
 
-	# Print app output
-	docker logs 8f0041c7b9c8
+# Print app output
+docker logs 8f0041c7b9c8
 
-	> socket-chat-example@0.0.1 start /usr/src/app
-	> node server.js
+> socket-chat-example@0.0.1 start /usr/src/app
+> node server.js
 
-	listening on *:3000
+listening on *:3000
+```
 
 7. Try it on the browser. 
 	
 localhost:3000 does not work. You neeed to get the port of your app that docker mapped. This you can see in the
 docker ps output under the column PORTS. In this case  
 
-	0.0.0.0:49160->3000/tcp
+```
+0.0.0.0:49160->3000/tcp
+```
 
 So we have to use port 49160 in the browser
 
-	localhost:49160 
+```
+localhost:49160 
+```
 
 Chakka, it works
 
 8. Connect to the docker container 
 
-	docker exec -it 8f0041c7b9c8 /bin/bash
+```bash
+docker exec -it 8f0041c7b9c8 /bin/bash
 
-	# Here you have to use Port 3000
-	root@055ec64e7645:/usr/src/app# curl -i localhost:3000
-	HTTP/1.1 200 OK
-	X-Powered-By: Express
-	Content-Type: text/html; charset=utf-8
-	Content-Length: 20
-	ETag: W/"14-a12yJ6aqIijHd7B3EQixhLH8XfM"
-	Date: Tue, 11 Dec 2018 23:05:36 GMT
-	Connection: keep-alive
+# Here you have to use Port 3000
+root@055ec64e7645:/usr/src/app# curl -i localhost:3000
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/html; charset=utf-8
+Content-Length: 20
+ETag: W/"14-a12yJ6aqIijHd7B3EQixhLH8XfM"
+Date: Tue, 11 Dec 2018 23:05:36 GMT
+Connection: keep-alive
 
-	<h1>Hello world</h1>root@8f0041c7b9c8:/usr/src/app#
+<h1>Hello world</h1>root@8f0041c7b9c8:/usr/src/app#
+```
 
 
 # Usefull stuff
