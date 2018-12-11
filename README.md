@@ -38,7 +38,7 @@ Based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
 3. Do the dockerfile stuff
 
 
-	# used the newest node version 
+    # used the newest node version 
 	FROM node:11
 
 	# Create app directory
