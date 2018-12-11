@@ -133,3 +133,7 @@ Rename the docker container to work smother with docker commands
 Stop the docker container
 
 	docker stop sia
+
+Run docker container with a name 
+
+	docker run --name sia -p 49160:3000 -d jerik/socket-io-app
