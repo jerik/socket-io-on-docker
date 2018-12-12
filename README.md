@@ -249,26 +249,31 @@ I update the files in my host system and copy them into the container
 
 1. Change server.js to use index.html
 
-	docker cp server.js sia:/usr/src/app/.
-	docker cp index.html sia:/usr/src/app/.
+```
+docker cp server.js sia:/usr/src/app/.
+docker cp index.html sia:/usr/src/app/.
+```
 
 Check if the new page layout is available on your host browser http://localhost:49160
 
 2. Install socket.io on the container
 
-	vim server.js index.html
-	docker exec -it sia /bin/bash
-	npm install --save socket.io
-	exit
-
+```
+vim server.js index.html
+docker exec -it sia /bin/bash
+npm install --save socket.io
+exit
+```
 3. Adapt server.js and index.html to use socket.io
 
-	vim server.js index.html
-	docker cp server.js sia:/usr/src/app/.
-	docker cp index.html sia:/usr/src/app/.
-	docker stop sia 
-	docker start sia
-	docker logs -f sia 
+```
+vim server.js index.html
+docker cp server.js sia:/usr/src/app/.
+docker cp index.html sia:/usr/src/app/.
+docker stop sia 
+docker start sia
+docker logs -f sia 
+```
 
 Open http://loaclhost:49160 on your host browser and refresh 3 times. Then you should see three times the new log
 message: a user connected. 
@@ -276,20 +281,26 @@ message: a user connected.
 4. Excursion: push image and changes to container into the docker cloud
 First create my repository on the docker cloud: jerik/socket-io-app
 
-	docker push jerik/socket-io-app
+```
+docker push jerik/socket-io-app
+```
 
 Create a new image from a containers changes
 
-	docker commit -m "integrated socket.io base" sia jerik/socket-io-app:getting-real
-	docker push jerik/socket-io-app:getting-real
+```
+docker commit -m "integrated socket.io base" sia jerik/socket-io-app:getting-real
+docker push jerik/socket-io-app:getting-real
+```
 
 5. Adding disconnect message, based on the guide
 
-	vim server.js 
-	docker cp server.js sia:/usr/src/app/.
-	docker stop sia 
-	docker start sia 
-	docker log -f sia 
+```
+vim server.js 
+docker cp server.js sia:/usr/src/app/.
+docker stop sia 
+docker start sia 
+docker log -f sia 
+```
 
 Open http://loaclhost:49160 on your host browser and refresh 3 times. Then you should see three times the additional
 log message: user is disconnected.
@@ -297,11 +308,14 @@ log message: user is disconnected.
 4. Emmitting events
 Adapt the index.html and server.js to the changes on the guide
 
-	vim server.js index.html
-	docker cp server.js sia:/usr/src/app/.
-	docker stop sia 
-	docker start sia 
-	docker log -f sia 
+```
+vim server.js index.html
+docker cp server.js sia:/usr/src/app/.
+docker cp index.html sia:/usr/src/app/.
+docker stop sia 
+docker start sia 
+docker log -f sia 
+```
 
 Open http://localhost:49160 on your host browser and type something in the input bar on the bottom and send it. The
 type message should be visible in the logs
@@ -309,11 +323,14 @@ type message should be visible in the logs
 5. Broadcasting
 Adapt the index.html and server.js to the changes on the guide
 
-	vim server.js index.html
-	docker cp server.js sia:/usr/src/app/.
-	docker stop sia 
-	docker start sia 
-	docker log -f sia 
+```
+vim server.js index.html
+docker cp server.js sia:/usr/src/app/.
+docker cp index.html sia:/usr/src/app/.
+docker stop sia 
+docker start sia 
+docker log -f sia 
+```
 
 When you open now to tabs with http://localhost:49160 you can chat. Each tab will get the message you typed and send
 in one of the tabs
