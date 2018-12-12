@@ -119,7 +119,7 @@ docker ps
 CONTAINER ID        IMAGE                 COMMAND             CREATED             STATUS              PORTS                     NAMES
 8f0041c7b9c8        jerik/socket-io-app   "npm start"         7 seconds ago       Up 6 seconds        0.0.0.0:49160->3000/tcp   determined_turing
 
-## 7. Print app output
+# Print app output
 docker logs 8f0041c7b9c8
 
 > socket-chat-example@0.0.1 start /usr/src/app
@@ -128,7 +128,7 @@ docker logs 8f0041c7b9c8
 listening on *:3000
 ```
 
-## 8. Try it on the host browser. 
+## 7. Try it on the host browser. 
 	
 http://localhost:3000 on the host browser does not work. You neeed to get the port of your app that docker mapped. This you can see in the ``docker ps`` output under the column PORTS. In my case  
 
@@ -136,15 +136,11 @@ http://localhost:3000 on the host browser does not work. You neeed to get the po
 0.0.0.0:49160->3000/tcp
 ```
 
-So we have to use port 49160 in the browser
+So we have to use port 49160 in the browser http://localhost:49160
+Chakka, it works!
 
-```
-localhost:49160 
-```
-
-Chakka, it works
-
-## 8. Connect to the docker container 
+## 8. Connect to the docker container
+It is part of the guide, I just tried it...
 
 ```bash
 docker exec -it 8f0041c7b9c8 /bin/bash
@@ -188,7 +184,7 @@ Copying files from host to container
 # Continue with the socket.io guide
 Based on the guide https://socket.io/get-started/chat/
 
-Rename the container to interact with less keystrokes. And connect to the container
+Rename the container to interact with less keystrokes. 
 
 ```
 docker container rename 8f0041c7b9c8 sia
@@ -200,8 +196,9 @@ I update the files in my host system and copy them into the container.
 
 Change server.js to use index.html as stated in the guide
 
-```
+```bash
 vim server.js index.html
+# edit and save
 docker cp server.js sia:/usr/src/app/.
 docker cp index.html sia:/usr/src/app/.
 ```
@@ -211,15 +208,16 @@ Check if the new page layout is available on your host browser http://localhost:
 ## 2. Integrating Socket.IO 
 Install socket.io on the container 
 
-```
+```bash
 docker exec -it sia /bin/bash
 npm install --save socket.io
 exit
 ```
 Adapt server.js and index.html to use socket.io
 
-```
+```bash
 vim server.js index.html
+# edit and save
 docker cp server.js sia:/usr/src/app/.
 docker cp index.html sia:/usr/src/app/.
 docker stop sia 
@@ -247,8 +245,9 @@ docker push jerik/socket-io-app:getting-real
 ## Back to the guide again
 Adding disconnect message, based on the guide
 
-```
+```bash
 vim server.js 
+# edit and save
 docker cp server.js sia:/usr/src/app/.
 docker stop sia 
 docker start sia 
@@ -261,8 +260,9 @@ log message: ``user is disconnected`` in your console.
 ## 3. Emmitting events
 Adapt the index.html and server.js to the changes on the guide
 
-```
+```bash
 vim server.js index.html
+# edit and save
 docker cp server.js sia:/usr/src/app/.
 docker cp index.html sia:/usr/src/app/.
 docker stop sia 
@@ -276,8 +276,9 @@ type message should be visible in the logs of your console.
 ## 4. Broadcasting
 Adapt the index.html and server.js to the changes on the guide
 
-```
+```bash
 vim server.js index.html
+# edit and save
 docker cp server.js sia:/usr/src/app/.
 docker cp index.html sia:/usr/src/app/.
 docker stop sia 
