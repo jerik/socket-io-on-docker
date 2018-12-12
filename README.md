@@ -36,13 +36,12 @@ node index.js
 This shows: listenning on \*:3000
 And calling _localhost:3000_ works as well
 
-# Start with the docker part. 
+# Start with the docker part
 Based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
 
 1. package.json is already populated by the previous steps
 2. copied the index.js to server.js to be inline with the tutorial. 
 3. Do the dockerfile stuff
-
 
 ```bash
 # used the newest node version 
@@ -72,7 +71,7 @@ CMD [ "npm", "start" ]
 4. Build the docker file 
 
 ```
-docker build -t jerik/socket-io-app
+docker build -t jerik/socket-io-app .
 ```
 Behind a proxy you have to use the ``--build-arg`` parameter
 
