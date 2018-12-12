@@ -296,3 +296,26 @@ log message: user is disconnected.
 
 4. Emmitting events
 Adapt the index.html and server.js to the changes on the guide
+
+	vim server.js index.html
+	docker cp server.js sia:/usr/src/app/.
+	docker stop sia 
+	docker start sia 
+	docker log -f sia 
+
+Open http://localhost:49160 on your host browser and type something in the input bar on the bottom and send it. The
+type message should be visible in the logs
+
+5. Broadcasting
+Adapt the index.html and server.js to the changes on the guide
+
+	vim server.js index.html
+	docker cp server.js sia:/usr/src/app/.
+	docker stop sia 
+	docker start sia 
+	docker log -f sia 
+
+When you open now to tabs with http://localhost:49160 you can chat. Each tab will get the message you typed and send
+in one of the tabs
+
+Now it works :) 
