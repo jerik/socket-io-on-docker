@@ -15,15 +15,23 @@ I follow the guide on https://socket.io/get-started/chat/
 # Follwing the guide
 
 1. create package.json with specified content
-2. npm install --save express@4.15.2
+2. add depedencies and stuff to package.json 
 
+```
+npm install --save express@4.15.2
+...
 added 46 packages from 30 contributors and audited 90 packages in 4.344s
 found 8 vulnerabilities (3 low, 2 moderate, 3 high)
-
-I ignored them 
+...
+```
+I ignored the vulnerabilities
 
 3. create index.json with specified content
-4. node index.js
+4. Run node
+
+```
+node index.js
+```
 
 This shows: listenning on \*:3000
 And calling _localhost:3000_ works as well
@@ -32,9 +40,7 @@ And calling _localhost:3000_ works as well
 Based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
 
 1. package.json is already populated by the previous steps
-
 2. copied the index.js to server.js to be inline with the tutorial. 
-
 3. Do the dockerfile stuff
 
 
@@ -63,7 +69,16 @@ EXPOSE 3000
 CMD [ "npm", "start" ]
 ```
 
-4. docker build -t jerik/socket-io-app
+4. Build the docker file 
+
+```
+docker build -t jerik/socket-io-app
+```
+Behind a proxy you have to use the ``--build-arg`` parameter
+
+```
+docker build  --build-arg http_proxy=http://my.proxy.com:8123 --build-arg https_proxy=http://my.proxy.com:8123 -t jerik/sockeit-io-app .
+```
 
 Had some warnings, but I ignored them
 
