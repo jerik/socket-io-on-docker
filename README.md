@@ -167,6 +167,14 @@ Run docker container with a name
 
 	docker run --name sia -p 49160:3000 -d jerik/socket-io-app
 
+Show logs 
+
+	docker logs sia
+
+Copying files from host to container
+
+	docker cp source.js sia:/full/path/.
+
 
 # Continue with the socket.io guide
 Based on https://socket.io/get-started/chat/
@@ -233,3 +241,58 @@ kill -2 16
 ```
 
 And I have a typo somewhere in server.js which leads to a failed start of the docker container
+
+# Second try to getting real 
+Based on https://socket.io/get-started/chat/
+
+I update the files in my host system and copy them into the container
+
+1. Change server.js to use index.html
+
+	docker cp server.js sia:/usr/src/app/.
+	docker cp index.html sia:/usr/src/app/.
+
+Check if the new page layout is available on your host browser http://localhost:49160
+
+2. Install socket.io on the container
+
+	vim server.js index.html
+	docker exec -it sia /bin/bash
+	npm install --save socket.io
+	exit
+
+3. Adapt server.js and index.html to use socket.io
+
+	vim server.js index.html
+	docker cp server.js sia:/usr/src/app/.
+	docker cp index.html sia:/usr/src/app/.
+	docker stop sia 
+	docker start sia
+	docker logs -f sia 
+
+Open http://loaclhost:49160 on your host browser and refresh 3 times. Then you should see three times the new log
+message: a user connected. 
+
+4. Excursion: push image and changes to container into the docker cloud
+First create my repository on the docker cloud: jerik/socket-io-app
+
+	docker push jerik/socket-io-app
+
+Create a new image from a containers changes
+
+	docker commit -m "integrated socket.io base" sia jerik/socket-io-app:getting-real
+	docker push jerik/socket-io-app:getting-real
+
+5. Adding disconnect message, based on the guide
+
+	vim server.js 
+	docker cp server.js sia:/usr/src/app/.
+	docker stop sia 
+	docker start sia 
+	docker log -f sia 
+
+Open http://loaclhost:49160 on your host browser and refresh 3 times. Then you should see three times the additional
+log message: user is disconnected.
+
+4. Emmitting events
+Adapt the index.html and server.js to the changes on the guide
