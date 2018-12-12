@@ -18,6 +18,16 @@ In retrospect I think it is not needed to have a node upgrade. It worked for me 
 Based on https://socket.io/get-started/chat/
 
 ## 1. create package.json with specified content
+
+```
+{
+  "name": "socket-chat-example",
+  "version": "0.0.1",
+  "description": "my first socket.io app",
+  "dependencies": {}
+}
+```
+
 ## 2. add depedencies and stuff to package.json 
 
 ```
@@ -43,7 +53,7 @@ And calling _localhost:3000_ works as well
 Based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
 
 ## 1. package.json is already populated by the previous steps
-## 2. copied the index.js to server.js to be inline with the tutorial. 
+## 2. Renamed the index.js to server.js to be inline with the dockers guide. 
 ## 3. Do the dockerfile stuff
 
 ```bash
@@ -120,8 +130,7 @@ listening on *:3000
 
 ## 8. Try it on the host browser. 
 	
-localhost:3000 does not work. You neeed to get the port of your app that docker mapped. This you can see in the
-docker ps output under the column PORTS. In this case  
+http://localhost:3000 on the host browser does not work. You neeed to get the port of your app that docker mapped. This you can see in the ``docker ps`` output under the column PORTS. In my case  
 
 ```
 0.0.0.0:49160->3000/tcp
@@ -133,7 +142,7 @@ So we have to use port 49160 in the browser
 localhost:49160 
 ```
 
-## Chakka, it works
+Chakka, it works
 
 ## 8. Connect to the docker container 
 
@@ -219,7 +228,7 @@ docker logs -f sia
 ```
 
 Open http://loaclhost:49160 on your host browser and refresh 3 times. Then you should see three times the new log
-message: a user connected. 
+message: ``a user connected`` in your console.
 
 ## Excursion: push image and changes to container into the docker cloud
 First create my repository on the docker cloud: jerik/socket-io-app
@@ -235,6 +244,7 @@ docker commit -m "integrated socket.io base" sia jerik/socket-io-app:getting-rea
 docker push jerik/socket-io-app:getting-real
 ```
 
+## Back to the guide again
 Adding disconnect message, based on the guide
 
 ```
@@ -246,9 +256,9 @@ docker log -f sia
 ```
 
 Open http://loaclhost:49160 on your host browser and refresh 3 times. Then you should see three times the additional
-log message: user is disconnected.
+log message: ``user is disconnected`` in your console.
 
-3. Emmitting events
+## 3. Emmitting events
 Adapt the index.html and server.js to the changes on the guide
 
 ```
@@ -261,9 +271,9 @@ docker log -f sia
 ```
 
 Open http://localhost:49160 on your host browser and type something in the input bar on the bottom and send it. The
-type message should be visible in the logs
+type message should be visible in the logs of your console. 
 
-5. Broadcasting
+## 4. Broadcasting
 Adapt the index.html and server.js to the changes on the guide
 
 ```
@@ -276,6 +286,6 @@ docker log -f sia
 ```
 
 When you open now to tabs with http://localhost:49160 you can chat. Each tab will get the message you typed and send
-in one of the tabs
+in one of the browser tabs.
 
-## Now it works :) 
+Now it works :) 
