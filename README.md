@@ -1,18 +1,21 @@
 # socket-io-on-docker
 
-I follow the guide on https://socket.io/get-started/chat/
+Building the fundament for this project. 
 
 # Update my node installation ( on OSX )
 
 	brew upgrade node
 	> node 9.11.1 -> 11.4.0
 
+In retrospect I think it is not needed to have a node upgrade. It worked for me on another machine where I have node v8.10.0. More important seems to be ``npm``. 
+
 # Update npm 
 
 	> npm WARN npm npm does not support Node.js v11.4.0
 	npm install -g npm
 
-# Follwing the guide
+# Follwing the guide for socket.io
+Based on https://socket.io/get-started/chat/
 
 1. create package.json with specified content
 2. add depedencies and stuff to package.json 
@@ -150,7 +153,6 @@ Connection: keep-alive
 <h1>Hello world</h1>root@8f0041c7b9c8:/usr/src/app#
 ```
 
-
 # Usefull stuff
 
 Rename the docker container to work smother with docker commands
@@ -164,3 +166,70 @@ Stop the docker container
 Run docker container with a name 
 
 	docker run --name sia -p 49160:3000 -d jerik/socket-io-app
+
+
+# Continue with the socket.io guide
+Based on https://socket.io/get-started/chat/
+
+Rename the container to interact with less keystrokes. And connect to the container
+
+	docker container rename 8f0041c7b9c8 sia
+	docker exec -it 8f0041c7b9c8 /bin/bash
+
+First install an editor in container 
+
+	apt-get update
+	apt-get install vim-tiny
+
+1. Serving HTML 
+
+```bash
+# edit and save according to the guide
+vi server.js 
+# create the file with the describe content
+vi index.html 
+exit 
+```
+
+restart the node process. I did it with stoping and starting the container
+
+	docker stop sia
+	docker start sia
+
+On the browser of the host system check if the new index.html will be servered ``http://localhost:49160``. Worked for me
+
+```bash
+docker exec -it 8f0041c7b9c8 /bin/bash
+npm install --save socket.io
+# edit and save according to the guide
+vi server.js
+vi index.html
+# get the PID of the 'node server.js' process. In my case 16
+ps aux 
+# kill the node and container, you will be thrown of the container
+kill -9 16
+```
+
+Restart the container and check the logs
+
+	docker start sia
+	docker logs 8f0041c7b98
+
+You should see at the end of the screen ``a user connected``. If you open a new browser tab with ``localhost:49160`` you see more of the log messages. 
+
+I started on a second console a tail of the log mmessage 
+
+```bash 
+docker logs -f 8f0041c7b9c8
+```
+
+and followed the guide
+
+```bash 
+docker exec -it 8f0041c7b9c8 /bin/bash
+# edit and save according to the guide (disconnect)
+vi server.js
+kill -2 16
+```
+
+And I have a typo somewhere in server.js which leads to a failed start of the docker container
