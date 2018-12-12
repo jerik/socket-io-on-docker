@@ -15,7 +15,7 @@ In retrospect I think it is not needed to have a node upgrade. It worked for me 
 	npm install -g npm
 
 # Follwing the guide for socket.io
-Based on https://socket.io/get-started/chat/
+Based on https://socket.io/get-started/chat/.
 
 ## 1. create package.json with specified content
 
@@ -37,7 +37,7 @@ added 46 packages from 30 contributors and audited 90 packages in 4.344s
 found 8 vulnerabilities (3 low, 2 moderate, 3 high)
 ...
 ```
-I ignored the vulnerabilities
+I ignored the vulnerabilities.
 
 ## 3. create index.json with specified content
 ## 4. Run node
@@ -50,7 +50,7 @@ This shows: listenning on \*:3000
 And calling _localhost:3000_ works as well
 
 # Start with the docker guide
-Based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
+Based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/.
 
 ## 1. package.json is already populated by the previous steps
 ## 2. Renamed the index.js to server.js to be inline with the dockers guide. 
@@ -86,13 +86,13 @@ CMD [ "npm", "start" ]
 ```
 docker build -t jerik/socket-io-app .
 ```
-Behind a proxy you have to use the ``--build-arg`` parameter
+Behind a proxy you have to use the ``--build-arg`` parameter.
 
 ```
 docker build  --build-arg http_proxy=http://my.proxy.com:8123 --build-arg https_proxy=http://my.proxy.com:8123 -t jerik/sockeit-io-app .
 ```
 
-Had some warnings, but I ignored them
+Had some warnings, but I ignored them.
 
 ```bash
 Step 4/7 : RUN npm install
@@ -130,13 +130,13 @@ listening on *:3000
 
 ## 7. Try it on the host browser. 
 	
-http://localhost:3000 on the host browser does not work. You neeed to get the port of your app that docker mapped. This you can see in the ``docker ps`` output under the column PORTS. In my case  
+http://localhost:3000 on the host browser does not work. You neeed to get the port of your app that docker mapped. This you can see in the ``docker ps`` output under the column PORTS. In my case: 
 
 ```
 0.0.0.0:49160->3000/tcp
 ```
 
-So we have to use port 49160 in the browser http://localhost:49160
+So we have to use port 49160 in the browser http://localhost:49160.
 Chakka, it works!
 
 ## 8. Connect to the docker container
@@ -160,29 +160,29 @@ Connection: keep-alive
 
 # Usefull stuff
 
-Rename the docker container to work smother with docker commands
+Rename the docker container to work smother with docker commands.
 
 	docker container rename 8f0041c7b9c8 sia
 
-Stop the docker container
+Stop the docker container.
 
 	docker stop sia
 
-Run docker container with a name 
+Run docker container with a name. 
 
 	docker run --name sia -p 49160:3000 -d jerik/socket-io-app
 
-Show logs 
+Show logs. 
 
 	docker logs sia
 
-Copying files from host to container
+Copying files from host to container.
 
 	docker cp source.js sia:/full/path/.
 
 
 # Continue with the socket.io guide
-Based on the guide https://socket.io/get-started/chat/
+Based on the guide https://socket.io/get-started/chat/.
 
 Rename the container to interact with less keystrokes. 
 
@@ -194,7 +194,7 @@ I update the files in my host system and copy them into the container.
 
 ## 1. Serving HTML 
 
-Change server.js to use index.html as stated in the guide
+Change server.js to use index.html as stated in the guide.
 
 ```bash
 vim server.js index.html
@@ -203,17 +203,17 @@ docker cp server.js sia:/usr/src/app/.
 docker cp index.html sia:/usr/src/app/.
 ```
 
-Check if the new page layout is available on your host browser http://localhost:49160
+Check if the new page layout is available on your host browser http://localhost:49160.
 
 ## 2. Integrating Socket.IO 
-Install socket.io on the container 
+Install socket.io on the container.
 
 ```bash
 docker exec -it sia /bin/bash
 npm install --save socket.io
 exit
 ```
-Adapt server.js and index.html to use socket.io
+Adapt server.js and index.html to use socket.io.
 
 ```bash
 vim server.js index.html
@@ -229,7 +229,7 @@ Open http://loaclhost:49160 on your host browser and refresh 3 times. Then you s
 message: ``a user connected`` in your console.
 
 ## Excursion: push image and changes to container into the docker cloud
-First create my repository on the docker cloud: jerik/socket-io-app
+First create my repository on the docker cloud: jerik/socket-io-app.
 
 ```
 docker push jerik/socket-io-app
@@ -243,7 +243,7 @@ docker push jerik/socket-io-app:getting-real
 ```
 
 ## Back to the guide again
-Adding disconnect message, based on the guide
+Adding disconnect message, based on the guide.
 
 ```bash
 vim server.js 
@@ -258,7 +258,7 @@ Open http://loaclhost:49160 on your host browser and refresh 3 times. Then you s
 log message: ``user is disconnected`` in your console.
 
 ## 3. Emmitting events
-Adapt the index.html and server.js to the changes on the guide
+Adapt the index.html and server.js to the changes on the guide.
 
 ```bash
 vim server.js index.html
@@ -274,7 +274,7 @@ Open http://localhost:49160 on your host browser and type something in the input
 type message should be visible in the logs of your console. 
 
 ## 4. Broadcasting
-Adapt the index.html and server.js to the changes on the guide
+Adapt the index.html and server.js to the changes on the guide.
 
 ```bash
 vim server.js index.html
