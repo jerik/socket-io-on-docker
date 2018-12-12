@@ -1,6 +1,6 @@
 # socket-io-on-docker
 
-Building the fundament for this project. 
+Building the fundament for this project. Open up your console...
 
 # Update my node installation ( on OSX )
 
