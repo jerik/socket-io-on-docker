@@ -17,8 +17,8 @@ In retrospect I think it is not needed to have a node upgrade. It worked for me 
 # Follwing the guide for socket.io
 Based on https://socket.io/get-started/chat/
 
-1. create package.json with specified content
-2. add depedencies and stuff to package.json 
+## 1. create package.json with specified content
+## 2. add depedencies and stuff to package.json 
 
 ```
 npm install --save express@4.15.2
@@ -29,8 +29,8 @@ found 8 vulnerabilities (3 low, 2 moderate, 3 high)
 ```
 I ignored the vulnerabilities
 
-3. create index.json with specified content
-4. Run node
+## 3. create index.json with specified content
+## 4. Run node
 
 ```
 node index.js
@@ -39,12 +39,12 @@ node index.js
 This shows: listenning on \*:3000
 And calling _localhost:3000_ works as well
 
-# Start with the docker part
+# Start with the docker guide
 Based on https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
 
-1. package.json is already populated by the previous steps
-2. copied the index.js to server.js to be inline with the tutorial. 
-3. Do the dockerfile stuff
+## 1. package.json is already populated by the previous steps
+## 2. copied the index.js to server.js to be inline with the tutorial. 
+## 3. Do the dockerfile stuff
 
 ```bash
 # used the newest node version 
@@ -71,7 +71,7 @@ EXPOSE 3000
 CMD [ "npm", "start" ]
 ```
 
-4. Build the docker file 
+## 4. Build the docker file 
 
 ```
 docker build -t jerik/socket-io-app .
@@ -91,7 +91,7 @@ npm WARN socket-chat-example@0.0.1 No repository field.
 npm WARN socket-chat-example@0.0.1 No license field.
 ```
 
-5. Check the docker images
+## 5. Check the docker images
 
 ```bash
 docker images
@@ -99,7 +99,7 @@ jerik/socket-io-app      latest              58646c790614        44 seconds ago 
 node                     11                  37f455de4837        3 days ago          894MB
 ```
 
-6. run the image
+## 6. run the image
 
 ```bash
 docker run -p 49160:3000 -d jerik/socket-io-app
@@ -109,7 +109,7 @@ docker ps
 CONTAINER ID        IMAGE                 COMMAND             CREATED             STATUS              PORTS                     NAMES
 8f0041c7b9c8        jerik/socket-io-app   "npm start"         7 seconds ago       Up 6 seconds        0.0.0.0:49160->3000/tcp   determined_turing
 
-# Print app output
+## 7. Print app output
 docker logs 8f0041c7b9c8
 
 > socket-chat-example@0.0.1 start /usr/src/app
@@ -118,7 +118,7 @@ docker logs 8f0041c7b9c8
 listening on *:3000
 ```
 
-7. Try it on the browser. 
+## 8. Try it on the host browser. 
 	
 localhost:3000 does not work. You neeed to get the port of your app that docker mapped. This you can see in the
 docker ps output under the column PORTS. In this case  
@@ -133,9 +133,9 @@ So we have to use port 49160 in the browser
 localhost:49160 
 ```
 
-Chakka, it works
+## Chakka, it works
 
-8. Connect to the docker container 
+## 8. Connect to the docker container 
 
 ```bash
 docker exec -it 8f0041c7b9c8 /bin/bash
@@ -177,94 +177,37 @@ Copying files from host to container
 
 
 # Continue with the socket.io guide
-Based on https://socket.io/get-started/chat/
+Based on the guide https://socket.io/get-started/chat/
 
 Rename the container to interact with less keystrokes. And connect to the container
 
-	docker container rename 8f0041c7b9c8 sia
-	docker exec -it 8f0041c7b9c8 /bin/bash
-
-First install an editor in container 
-
-	apt-get update
-	apt-get install vim-tiny
-
-1. Serving HTML 
-
-```bash
-# edit and save according to the guide
-vi server.js 
-# create the file with the describe content
-vi index.html 
-exit 
+```
+docker container rename 8f0041c7b9c8 sia
 ```
 
-restart the node process. I did it with stoping and starting the container
+I update the files in my host system and copy them into the container. 
 
-	docker stop sia
-	docker start sia
+## 1. Serving HTML 
 
-On the browser of the host system check if the new index.html will be servered ``http://localhost:49160``. Worked for me
-
-```bash
-docker exec -it 8f0041c7b9c8 /bin/bash
-npm install --save socket.io
-# edit and save according to the guide
-vi server.js
-vi index.html
-# get the PID of the 'node server.js' process. In my case 16
-ps aux 
-# kill the node and container, you will be thrown of the container
-kill -9 16
-```
-
-Restart the container and check the logs
-
-	docker start sia
-	docker logs 8f0041c7b98
-
-You should see at the end of the screen ``a user connected``. If you open a new browser tab with ``localhost:49160`` you see more of the log messages. 
-
-I started on a second console a tail of the log mmessage 
-
-```bash 
-docker logs -f 8f0041c7b9c8
-```
-
-and followed the guide
-
-```bash 
-docker exec -it 8f0041c7b9c8 /bin/bash
-# edit and save according to the guide (disconnect)
-vi server.js
-kill -2 16
-```
-
-And I have a typo somewhere in server.js which leads to a failed start of the docker container
-
-# Second try to getting real 
-Based on https://socket.io/get-started/chat/
-
-I update the files in my host system and copy them into the container
-
-1. Change server.js to use index.html
+Change server.js to use index.html as stated in the guide
 
 ```
+vim server.js index.html
 docker cp server.js sia:/usr/src/app/.
 docker cp index.html sia:/usr/src/app/.
 ```
 
 Check if the new page layout is available on your host browser http://localhost:49160
 
-2. Install socket.io on the container
+## 2. Integrating Socket.IO 
+Install socket.io on the container 
 
 ```
-vim server.js index.html
 docker exec -it sia /bin/bash
 npm install --save socket.io
 exit
 ```
-3. Adapt server.js and index.html to use socket.io
+Adapt server.js and index.html to use socket.io
 
 ```
 vim server.js index.html
@@ -278,7 +221,7 @@ docker logs -f sia
 Open http://loaclhost:49160 on your host browser and refresh 3 times. Then you should see three times the new log
 message: a user connected. 
 
-4. Excursion: push image and changes to container into the docker cloud
+## Excursion: push image and changes to container into the docker cloud
 First create my repository on the docker cloud: jerik/socket-io-app
 
 ```
@@ -292,7 +235,7 @@ docker commit -m "integrated socket.io base" sia jerik/socket-io-app:getting-rea
 docker push jerik/socket-io-app:getting-real
 ```
 
-5. Adding disconnect message, based on the guide
+Adding disconnect message, based on the guide
 
 ```
 vim server.js 
@@ -305,7 +248,7 @@ docker log -f sia
 Open http://loaclhost:49160 on your host browser and refresh 3 times. Then you should see three times the additional
 log message: user is disconnected.
 
-4. Emmitting events
+3. Emmitting events
 Adapt the index.html and server.js to the changes on the guide
 
 ```
@@ -335,4 +278,4 @@ docker log -f sia
 When you open now to tabs with http://localhost:49160 you can chat. Each tab will get the message you typed and send
 in one of the tabs
 
-Now it works :) 
+## Now it works :) 
