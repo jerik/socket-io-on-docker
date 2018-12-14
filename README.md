@@ -89,7 +89,7 @@ docker build -t jerik/socket-io-app .
 Behind a proxy you have to use the ``--build-arg`` parameter.
 
 ```
-docker build  --build-arg http_proxy=http://my.proxy.com:8123 --build-arg https_proxy=http://my.proxy.com:8123 -t jerik/sockeit-io-app .
+docker build  --build-arg http_proxy=http://my.proxy.com:8123 --build-arg https_proxy=http://my.proxy.com:8123 -t jerik/socket-io-app .
 ```
 
 Had some warnings, but I ignored them.
