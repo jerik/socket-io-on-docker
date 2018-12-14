@@ -290,3 +290,27 @@ When you open now to tabs with http://localhost:49160 you can chat. Each tab wil
 in one of the browser tabs.
 
 Now it works :) 
+
+# Try to get the RTCMuliConnection Socket.io Server.
+
+```sh
+git clone https://github.com/muaz-khan/RTCMultiConnection-Server.git
+mkdir node_modles
+npm instll 
+node server
+```
+
+It will run it on port 9001. You can change port or set SSL certificates using config.json file.
+
+When you run it on the browser you should see
+
+```
+RTCMultiConnection Socket.io Server.
+
+https://github.com/muaz-khan/RTCMultiConnection-Server
+
+npm install RTCMultiConnection-Server
+```
+
+I did run it on my docker container: ``docker run --name zoo -p 49160:9001 -p 49999:3000 -d jerik/socket-io-app:getting-real`` and could open it on the host browser http://http://localhost:49160
+
