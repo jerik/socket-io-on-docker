@@ -294,7 +294,7 @@ Now it works :)
 # Try to get the RTCMuliConnection Socket.io Server.
 
 ```sh
-git clone https://github.com/muaz-khan/RTCMultiConnection-Server.git
+git clone https://github.com/muaz-khan/RTCMultiConnection-Server.git ./
 mkdir node_modles
 npm instll 
 node server
